@@ -1,5 +1,6 @@
 "use server";
 
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -231,7 +232,7 @@ export async function acceptInvite(_state: unknown, formData: FormData) {
   redirect("/clients");
 }
 
-export async function getAppUser() {
+export const getAppUser = cache(async () => {
   const supabase = await createClient();
 
   const {
@@ -247,7 +248,7 @@ export async function getAppUser() {
     .single();
 
   return data;
-}
+});
 
 export async function getInvites() {
   const supabase = await createClient();

@@ -1,5 +1,6 @@
 "use server";
 
+import { cache } from "react";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import getPostProxy from "@/lib/postproxy";
@@ -78,7 +79,7 @@ export async function deleteClientAction(clientId: string) {
   redirect("/clients");
 }
 
-export async function getClient(clientId: string): Promise<Client | null> {
+export const getClient = cache(async (clientId: string): Promise<Client | null> => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("clients")
@@ -91,9 +92,9 @@ export async function getClient(clientId: string): Promise<Client | null> {
   }
 
   return data as Client;
-}
+});
 
-export async function getClients(): Promise<Client[]> {
+export const getClients = cache(async (): Promise<Client[]> => {
   const supabase = await createClient();
   const { data } = await supabase
     .from("clients")
@@ -101,4 +102,4 @@ export async function getClients(): Promise<Client[]> {
     .order("created_at", { ascending: false });
 
   return (data as Client[]) ?? [];
-}
+});

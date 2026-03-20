@@ -4,7 +4,11 @@ import { InviteSection } from "./invite-section";
 import { UsersList } from "./users-list";
 
 export default async function SettingsPage() {
-  const appUser = await getAppUser();
+  const [appUser, invites, users] = await Promise.all([
+    getAppUser(),
+    getInvites(),
+    getUsers(),
+  ]);
 
   if (!appUser) {
     redirect("/login");
@@ -13,8 +17,6 @@ export default async function SettingsPage() {
   if (appUser.role !== "owner") {
     redirect("/clients");
   }
-
-  const [invites, users] = await Promise.all([getInvites(), getUsers()]);
 
   return (
     <div className="max-w-xl mx-auto py-10 px-6">
