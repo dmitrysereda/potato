@@ -4,7 +4,7 @@
 
 # Potato
 
-Why "Potato"? Because you can make anything out of a potato. This is a blueprint for working with [PostProxy](https://postproxy.dev) — client management, social accounts, composing and scheduling posts — and from here you can take it anywhere. Plug in generative AI for images and copy, add an approval workflow, build dashboards — whatever you need.
+Why "Potato"? Because you can make anything out of a potato. This is a blueprint for working with [Postproxy](https://postproxy.dev) — client management, social accounts, composing and scheduling posts — and from here you can take it anywhere. Plug in generative AI for images and copy, add an approval workflow, build dashboards — whatever you need.
 
 Built on Next.js + Supabase.
 
@@ -18,14 +18,18 @@ Built on Next.js + Supabase.
 
 ## Prerequisites
 
+You will need **accounts** on [Postproxy](https://postproxy.dev) and [Supabase](https://supabase.com). In each dashboard, create or copy the credentials you will paste into `.env.local` in the next section: a **Postproxy API key**, and your **Supabase project URL** plus **publishable (anon) key** for the browser.
+
 - Node.js 18+
-- A [PostProxy](https://postproxy.dev) account and API key
-- A [Supabase](https://supabase.com) project
+- [Postproxy](https://postproxy.dev) account with an API key
+- [Supabase](https://supabase.com) project with URL and publishable key
 
 ## Setup
 
+**Get the code.** Open a terminal and `cd` to the parent folder where you want the project (for example `~/Projects`). The first command clones this repo into a new `potato` subdirectory and switches into it; the next command copies the env template.
+
 ```bash
-git clone <repo-url> && cd potato
+git clone https://github.com/postproxy/potato && cd potato
 cp .env.example .env.local
 ```
 
@@ -35,7 +39,9 @@ cp .env.example .env.local
 npm install
 ```
 
-Fill in your `.env.local`:
+**Environment variables.** The `.env.local` file holds your private keys and URLs (nothing is committed to git). Open it in any text editor, fill in the values below, and save. For example `nano .env.local` — edit the lines, then press Ctrl+O to save and Ctrl+X to exit (`nano` is available on most Mac/Linux systems).
+
+Replace the placeholders with your real credentials:
 
 ```
 POSTPROXY_API_KEY=your-postproxy-api-key
@@ -44,7 +50,7 @@ NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-supabase-publishable-key
 ```
 
-Run the database migration — open your Supabase SQL Editor and paste the contents of `supabase/migrations/001_create_clients.sql`, then run it. Or:
+Run the database migration — open your Supabase SQL Editor and paste the contents of `supabase/migrations/001_create_clients.sql`, then run it. Or use the Supabase CLI: if you have not signed in on this machine before, run `npx supabase login` once (it opens the browser). Then:
 
 ```bash
 npx supabase link
@@ -57,7 +63,9 @@ Start:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). **Ta-da** — the app is running on your machine. Sign up, poke around: create a client, connect a social profile, try the composer.
+
+**Sign-up email:** use a real address you can open (not a fake or random string). Supabase sends a confirmation link, and you need to verify the email before sign-in works.
 
 ## Deploy
 
