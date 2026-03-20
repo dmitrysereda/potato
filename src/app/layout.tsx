@@ -1,10 +1,6 @@
-export const dynamic = "force-dynamic";
-
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-import { Sidebar } from "@/components/sidebar";
-import { createClient } from "@/lib/supabase/server";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -22,21 +18,15 @@ export const metadata: Metadata = {
   description: "Social media management for solo marketers and small teams",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   return (
     <html lang="en" className={`h-full ${outfit.variable} ${playfair.variable}`}>
-      <body className="h-full flex antialiased font-sans">
-        {user && <Sidebar />}
-        <main className="flex-1 overflow-y-auto bg-background h-full">{children}</main>
+      <body className="h-full antialiased font-sans">
+        {children}
         <Toaster />
       </body>
     </html>
