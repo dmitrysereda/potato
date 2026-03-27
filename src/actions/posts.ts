@@ -178,13 +178,13 @@ export async function publishDraft(clientId: string, postId: string) {
 
 export async function getPosts(
   profileGroupId: string,
-  options?: { status?: string; page?: number }
+  options?: { status?: string; page?: number; perPage?: number }
 ) {
   return getPostProxy().posts.list({
     profileGroupId,
     status: options?.status as PostStatus,
     page: options?.page,
-    perPage: 20,
+    perPage: options?.perPage ?? 20,
   });
 }
 
